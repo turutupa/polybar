@@ -2,11 +2,15 @@
 
 icon_enabled="󰂰"
 icon_disabled="󰂲"
-status=`systemctl is-active bluetooth.service`
 
-if [ $status == "active" ]
+if [ $(bluetoothctl show | grep "Powered: yes" | wc -c) -eq 0 ]
 then
-    echo "$icon_enabled"
+  echo "%{F#4e4e4e}$icon_disabled"
 else
-    echo "$icon_disabled"
+  if [ $(echo info | bluetoothctl | grep 'Device' | wc -c) -eq 0 ]
+  then 
+    echo "%{F#a89984}$icon_enabled"
+  fi
+    device=$(echo info | bluetoothctl | grep 'Name:' | cut -d ' ' -f 2- | cut -c 1-8)
+    echo "%{F#a89984}$icon_enabled%{F-}   $device"
 fi
