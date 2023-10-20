@@ -5,12 +5,12 @@ icon_disabled="󰂲"
 
 if [ $(bluetoothctl show | grep "Powered: yes" | wc -c) -eq 0 ]
 then
-  echo "%{F#4e4e4e}$icon_disabled"
+  echo "%{F#f2cdcd}$icon_disabled  "
 else
   if [ $(echo info | bluetoothctl | grep 'Device' | wc -c) -eq 0 ]
   then 
-    echo "%{F#a89984}$icon_enabled"
+    echo "%{F#f5c2e7}$icon_enabled "
   fi
     device=$(echo info | bluetoothctl | grep 'Name:' | cut -d ' ' -f 2- | cut -c 1-8)
-    echo "%{F#a89984}$icon_enabled%{F-}   $device"
+    echo "%{F#f5c2e7}$icon_enabled $device %{F-}"
 fi
